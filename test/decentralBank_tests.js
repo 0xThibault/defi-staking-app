@@ -1,3 +1,5 @@
+const { assert } = require("console");
+
 /* eslint-disable no-undef */
 const Tether = artifacts.require("Tether");
 const RWD = artifacts.require("RWD");
@@ -5,6 +7,7 @@ const DecentralBank = artifacts.require("DecentralBank");
 
 require("chai").use(require("chai-as-promised")).should();
 
+// owner is the first address in ganache, customer is the second address
 contract("DecentralBank", ([owner, customer]) => {
     let tether, rwd, decentralBank;
 
@@ -48,5 +51,52 @@ contract("DecentralBank", ([owner, customer]) => {
             let balance = await rwd.balanceOf(decentralBank.address);
             assert.equal(balance, tokens("1000000"));
         })
+
+        describe("Yield Farming", async () => {
+            it("rewards tokens for staking", async () => {
+                let result
+    
+                // Check investor balance
+                result = await tether.balanceOf(customer);
+                assert.equal(result.toString(), tokens("100"), "customer fake tether wallet balance before staking");
+    
+                // Check staking for customer of 100 tokens
+                await tether.approve(decentralBank.address, tokens("100"), {from: customer});
+                await decentralBank.depositTokens(tokens("100"), {from: customer});
+
+                // Check updated balance of customer
+                result = await tether.balanceOf(customer);
+                assert.equal(result.toString(), tokens("0"), "customer fake tether wallet balance after staking");
+
+                // Check updated balance of Decentral Bank
+                result = await tether.balanceOf(decentralBank.address);
+                assert.equal(result.toString(), tokens("100"), "decentral bank fake tether wallet balance after staking");
+
+                // Check customer staking status
+                result = await decentralBank.isStaked(customer);
+                assert.equal(result.toString(), "true", "customer is staking status after staking");
+
+                // Issue Tokens
+                await decentralBank.issueTokens({from: owner});
+
+                // Ensure only the owner can Issue Token
+                await decentralBank.issueTokens({from: customer}).should.be.rejected;
+
+                // Unstake tokens
+                await decentralBank.unstakeTokens({from: customer});
+
+                // Check unstaking balances
+                result = await tether.balanceOf(customer);
+                assert.equal(result.toString(), tokens("100"), "customer fake tether wallet balance after unstaking");
+
+                // Check updated balance of Decentral Bank
+                result = await tether.balanceOf(decentralBank.address);
+                assert.equal(result.toString(), tokens("0"), "decentral bank fake tether wallet balance after unstaking");
+
+                // Check customer unstaking status
+                result = await decentralBank.isStaked(customer);
+                assert.equal(result.toString(), "false", "customer staking status after unstaking");
+            })      
+        })    
     })
 })
