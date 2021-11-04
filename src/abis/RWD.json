@@ -9436,12 +9436,12 @@
         }
       },
       "links": {},
-      "address": "0xA43FcbE2578D002586eDAB89c52B4cBBdbc8e8E2",
-      "transactionHash": "0x3672a8d0d0ab15853ee0d0ef56839f515092eb9d5bd11778c0a144540e407fab"
+      "address": "0xe2779E8D5e7c7438BF9B5EeE5939385c5DEB72C5",
+      "transactionHash": "0x00d84c8da51cafb110e3ccef6247995f5264a30ced47d0b06e892e15a4768449"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-02T17:14:09.916Z",
+  "updatedAt": "2021-11-04T10:34:18.359Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
