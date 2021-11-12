@@ -95,13 +95,21 @@ class App extends Component {
                     <div className="row">
                         <main role="main" className="col-lg-12 ml-auto mr-auto" style={{maxWidth:"600px", minHeight:"100vm"}}>
                             <div>
-                                <Main />
+                                {this.state.loading ? 
+                                    <p className="text-center">LOADING PAGE ...</p> : 
+                                    <Main
+                                        tetherBalance = {this.state.tetherBalance} 
+                                        rwdBalance = {this.state.rwdBalance} 
+                                        stakingBalance = {this.state.stakingBalance} 
+                                    />
+                                }
                             </div>
                         </main>
                     </div>
                 </div>
             </div>
         )
+    
     }
 }
 

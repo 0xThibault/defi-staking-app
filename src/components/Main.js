@@ -14,9 +14,9 @@ class Main extends Component {
                     </thead>
 
                     <tbody>
-                        <tr style={{color:"grey"}}>
-                            <td>USDT</td>
-                            <td>RWD Token</td>
+                        <tr style={{color:"black"}}>
+                            <td>{window.web3.utils.fromWei(this.props.stakingBalance, "Ether")} USDT</td>
+                            <td>{window.web3.utils.fromWei(this.props.rwdBalance, "Ether")} RWD Token</td>
                         </tr>
                     </tbody>
                 </table>
@@ -28,7 +28,7 @@ class Main extends Component {
                                 <b>Stake Tokens</b>
                             </label>
                             <span className="float-right mr-2">
-                                Balance:
+                                Fake Tether Balance: {window.web3.utils.fromWei(this.props.tetherBalance, "Ether")}
                             </span>
                             
                             <div className="input-group mb-4">
