@@ -5,6 +5,7 @@ import Web3 from "web3";
 import Tether from "../abis/Tether.json";
 import Rwd from "../abis/RWD.json";
 import DecentralBank from "../abis/DecentralBank.json";
+import Main from "./Main.js"
 
 class App extends Component {
 
@@ -88,8 +89,17 @@ class App extends Component {
 
     render() {
         return (
-            <div className="text-center">
+            <div>
                 <Navbar account={this.state.account} />
+                <div className="container-fluid mt-5">
+                    <div className="row">
+                        <main role="main" className="col-lg-12 ml-auto mr-auto" style={{maxWidth:"600px", minHeight:"100vm"}}>
+                            <div>
+                                <Main />
+                            </div>
+                        </main>
+                    </div>
+                </div>
             </div>
         )
     }
