@@ -22,7 +22,15 @@ class Main extends Component {
                 </table>
 
                 <div className="card mb-2" style={{opacity:".9"}}>
-                    <form className="mb-3">
+                    <form 
+                    className="mb-3"
+                    onSubmit = {(e) => {
+                        e.preventDefault();
+                        let amount
+                        amount = this.input.value.toString();
+                        amount = window.web3.utils.toWei(amount, "Ether");
+                        this.props.stakeTokens(amount);
+                    }}>
                         <div style={{borderSpacing:"0 1em"}}>
                             <label className="float-left ml-3">
                                 <b>Stake Tokens</b>
@@ -32,7 +40,7 @@ class Main extends Component {
                             </span>
                             
                             <div className="input-group mb-4">
-                                <input type="text" placeholder="0" required />
+                                <input ref={(input) => {this.input = input}} type="text" placeholder="0" required />
                                 <div className="input-group-opened">
                                     <div className="input-group-text">
                                         <img src={tether} alt="tether logo" height="32" /> 
@@ -44,10 +52,16 @@ class Main extends Component {
                             <button type="submit" className="btn btn-primary btn-lg btn-block">DEPOSIT</button>
                         </div>
                     </form>
-                    <button className="btn btn-primary btn-lg btn-block">WITHDRAW</button>
-                    <div className="card-body text-center" style={{color: "blue"}}>
-                        AIRDROP
-                    </div>
+                    <button 
+                    className="btn btn-primary btn-lg btn-block"
+                    type="submit"
+                    onClick={(e) => {
+                        e.preventDefault(
+                            this.props.unstakeTokens()
+                        )
+                    }}>
+                        WITHDRAW
+                    </button>
                 </div>
             </div>
         )

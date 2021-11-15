@@ -73,6 +73,24 @@ class App extends Component {
         this.setState({loading: false});
     }
 
+    // Function to stake token
+    stakeTokens = (amount) => {
+        this.setState({loading: true});
+        this.state.tether.methods.approve(this.state.decentralBank._address, amount).send({from: this.state.account}).on("transactionHash", (hash) => {
+            this.state.decentralBank.methods.depositTokens(amount).send({from: this.state.account}).on("transactionHash", (hash) => {
+                this.setState({loading: false});
+            })
+        })
+    }
+
+    // Function to unstake token
+    unstakeTokens = () => {
+        this.setState({loading: true});
+            this.state.decentralBank.methods.unstakeTokens().send({from: this.state.account}).on("transactionHash", (hash) => {
+                this.setState({loading: false});
+            })
+    }
+
     constructor(props) {
         super(props)
         this.state = {
@@ -100,7 +118,9 @@ class App extends Component {
                                     <Main
                                         tetherBalance = {this.state.tetherBalance} 
                                         rwdBalance = {this.state.rwdBalance} 
-                                        stakingBalance = {this.state.stakingBalance} 
+                                        stakingBalance = {this.state.stakingBalance}
+                                        stakeTokens = {this.stakeTokens} 
+                                        unstakeTokens = {this.unstakeTokens} 
                                     />
                                 }
                             </div>
